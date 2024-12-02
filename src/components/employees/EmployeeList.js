@@ -88,9 +88,6 @@ function EmployeeList() {
 
   return (
     <div className="container">
-      <h1 className="page-title">
-        COMP3123 - Assignment 2
-      </h1>
       <h2 style={{ textAlign: 'center'}}>
         Employee Management System
       </h2>

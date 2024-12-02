@@ -6,14 +6,22 @@ import SearchBar from './SearchBar';
 import Navbar from '../common/Navbar';
 
 const EmployeeManagement = () => {
+  const [employees, setEmployees] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchCriteria, setSearchCriteria] = useState('department'); // or 'position'
+  const [searchCriteria, setSearchCriteria] = useState('department');
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleSearch = (query, criteria) => {
+  // Filter employees based on search criteria and query
+  const filteredEmployees = employees.filter(employee => {
+    if (!searchQuery) return true;
+    
+    const value = employee[searchCriteria]?.toLowerCase() || '';
+    return value.includes(searchQuery.toLowerCase());
+  });
+
+  const handleSearch = (query) => {
     setSearchQuery(query);
-    setSearchCriteria(criteria);
   };
 
   const handleLogout = () => {
@@ -26,7 +34,7 @@ const EmployeeManagement = () => {
       <Navbar onLogout={handleLogout} />
       <div className="container">
         <h1 className="page-title">COMP3123 - Assignment 2</h1>
-        <h2 className="page-subtitle">Employee Management System</h2>
+        <h2 className="page-subtitle">Employee Search Bar</h2>
         
         <SearchBar 
           onSearch={handleSearch}
@@ -35,8 +43,8 @@ const EmployeeManagement = () => {
         />
         
         <EmployeeList 
-          searchQuery={searchQuery}
-          searchCriteria={searchCriteria}
+          employees={filteredEmployees}
+          setEmployees={setEmployees}
         />
       </div>
     </div>
